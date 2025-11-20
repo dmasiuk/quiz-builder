@@ -160,31 +160,54 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
     <DndProvider backend={HTML5Backend}>
       <div className="min-h-screen bg-white flex flex-col">
         <header className="bg-white border-b border-gray-200 px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4 flex-1">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex items-center justify-between md:hidden">
               <Button variant="secondary" onClick={handleBack}>
                 ← Back
               </Button>
-              <div className="flex-1 max-w-2xl">
-                <Input
-                  value={quiz.title}
-                  onChange={handleTitleChange}
-                  placeholder="Enter quiz title..."
-                  className="text-xl font-semibold"
-                />
+              <div className="flex gap-2">
+                <Button
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  variant="secondary"
+                >
+                  {isSaving ? "Saving..." : "Save"}
+                </Button>
+                <Button onClick={handlePublish} disabled={quiz.published}>
+                  {quiz.published ? "Published" : "Publish"}
+                </Button>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <Button
-                onClick={handleSave}
-                disabled={isSaving}
-                variant="secondary"
-              >
-                {isSaving ? "Saving..." : "Save"}
-              </Button>
-              <Button onClick={handlePublish} disabled={quiz.published}>
-                {quiz.published ? "Published" : "Publish"}
-              </Button>
+            <div className="flex flex-col md:flex-row md:items-center md:flex-1 gap-4">
+              <div className="flex items-center gap-4 flex-1">
+                <Button
+                  variant="secondary"
+                  onClick={handleBack}
+                  className="hidden md:flex"
+                >
+                  ← Back
+                </Button>
+                <div className="flex-1 max-w-2xl">
+                  <Input
+                    value={quiz.title}
+                    onChange={handleTitleChange}
+                    placeholder="Enter quiz title..."
+                    className="text-xl font-semibold"
+                  />
+                </div>
+              </div>
+              <div className="hidden md:flex items-center gap-3">
+                <Button
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  variant="secondary"
+                >
+                  {isSaving ? "Saving..." : "Save"}
+                </Button>
+                <Button onClick={handlePublish} disabled={quiz.published}>
+                  {quiz.published ? "Published" : "Publish"}
+                </Button>
+              </div>
             </div>
           </div>
         </header>
