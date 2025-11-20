@@ -26,4 +26,5 @@ export interface BlockProperties {
 export interface DragItem {
   type: BlockType;
   blockId?: string;
+  index?: number;
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { QuizBlock } from "@/lib/types";
+import { DragItem, QuizBlock } from "@/lib/types";
 
 interface BlockWrapperProps {
   block: QuizBlock;
@@ -10,12 +10,6 @@ interface BlockWrapperProps {
   onMove: (fromIndex: number, toIndex: number) => void;
   index: number;
   children: React.ReactNode;
-}
-
-interface DragItem {
-  type: string;
-  blockId: string;
-  index?: number;
 }
 
 export const BlockWrapper: React.FC<BlockWrapperProps> = ({
@@ -29,7 +23,7 @@ export const BlockWrapper: React.FC<BlockWrapperProps> = ({
 }) => {
   const [{ isDragging }, drag] = useDrag({
     type: "block",
-    item: { type: block.type, blockId: block.id },
+    item: { type: block.type, blockId: block.id, index: index },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -38,7 +32,7 @@ export const BlockWrapper: React.FC<BlockWrapperProps> = ({
   const [{ isOver }, drop] = useDrop({
     accept: "block",
     drop: (item: DragItem) => {
-      if (item.blockId !== block.id && item.index !== undefined) {
+      if (item.blockId && item.blockId !== block.id && item.index) {
         onMove(item.index, index);
       }
     },

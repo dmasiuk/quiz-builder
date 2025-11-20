@@ -1,11 +1,13 @@
-import React from "react";
 import { QuizBlock } from "@/lib/types";
+import { TypeSelect } from "../ui/TypeSelect";
 
 interface QuestionBlockProps {
   block: QuizBlock;
   isSelected: boolean;
   onUpdate: (block: QuizBlock) => void;
 }
+
+type QuestionType = "single" | "multi" | "text";
 
 export const QuestionBlock: React.FC<QuestionBlockProps> = ({
   block,
@@ -15,6 +17,12 @@ export const QuestionBlock: React.FC<QuestionBlockProps> = ({
   const { properties } = block;
   const { questionType = "single", text = "", options = [""] } = properties;
 
+  const questionTypeOptions = [
+    { value: "single", label: "Single selection" },
+    { value: "multi", label: "Multi selection" },
+    { value: "text", label: "Text answer" },
+  ];
+
   const handleTextChange = (text: string) => {
     onUpdate({
       ...block,
@@ -22,7 +30,7 @@ export const QuestionBlock: React.FC<QuestionBlockProps> = ({
     });
   };
 
-  const handleTypeChange = (type: "single" | "multi" | "text") => {
+  const handleTypeChange = (type: QuestionType) => {
     onUpdate({
       ...block,
       properties: {
@@ -98,17 +106,11 @@ export const QuestionBlock: React.FC<QuestionBlockProps> = ({
 
       <div>
         <label className="block text-sm font-medium mb-2">Question type:</label>
-        <select
+        <TypeSelect
           value={questionType}
-          onChange={(e) =>
-            handleTypeChange(e.target.value as "single" | "multi" | "text")
-          }
-          className="w-full p-2 border border-gray-300 rounded"
-        >
-          <option value="single">Single selection</option>
-          <option value="multi">Multi selection</option>
-          <option value="text">Text answer</option>
-        </select>
+          onChange={(value) => handleTypeChange(value as QuestionType)}
+          options={questionTypeOptions}
+        />
       </div>
 
       {(questionType === "single" || questionType === "multi") && (

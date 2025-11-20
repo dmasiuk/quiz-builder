@@ -4,13 +4,30 @@ import { useParams, useRouter } from "next/navigation";
 import { storage } from "@/lib/storage";
 import { Button } from "@/components/ui/Button";
 import { QuizRenderer } from "@/components/quiz/QuizRenderer";
+import { useEffect, useState } from "react";
+import { Quiz } from "@/lib/types";
+import { Loading } from "@/components/ui/Loading";
 
 export default function QuizPage() {
   const params = useParams();
   const router = useRouter();
+  const [quiz, setQuiz] = useState<Quiz | null>(null);
+  const [loading, setIsLoading] = useState(false);
 
-  const quizId = params.id as string;
-  const quiz = storage.getQuiz(quizId);
+  useEffect(() => {
+    const loadQuiz = () => {
+      setIsLoading(true);
+      const quizId = params.id as string;
+      const foundQuiz = storage.getQuiz(quizId);
+      setQuiz(foundQuiz);
+      setIsLoading(false);
+    };
+    loadQuiz();
+  }, [params.id]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   if (!quiz) {
     return (

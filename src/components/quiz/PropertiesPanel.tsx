@@ -16,7 +16,7 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
 }) => {
   if (!selectedBlock) {
     return (
-      <div className="w-80 bg-white border-l border-gray-200 p-4">
+      <div className="w-full lg:w-80 bg-white border-l border-gray-200 p-4">
         <h3 className="font-semibold mb-4">Properties</h3>
         <div className="text-gray-500 text-center py-8">
           Choose the block to edit
@@ -32,7 +32,7 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
   };
 
   return (
-    <div className="w-80 bg-white border-l border-gray-200 p-4 overflow-auto">
+    <div className="w-full lg:w-80 bg-white border-l border-gray-200 p-4 overflow-auto">
       <h3 className="font-semibold mb-4">Block properties</h3>
 
       <div className="mb-4 p-3 bg-gray-100 rounded">

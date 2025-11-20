@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useRouter } from "next/navigation";
@@ -11,19 +11,44 @@ import { Canvas } from "./Canvas";
 import { PropertiesPanel } from "./PropertiesPanel";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-
+import { Loading } from "../ui/Loading";
 interface QuizEditorProps {
   quizId?: string;
 }
 
 export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
   const router = useRouter();
-  const [quiz, setQuiz] = useState<Quiz | null>(() =>
-    initializeQuiz(quizId, router)
-  );
+  const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    const loadQuiz = () => {
+      let loadedQuiz: Quiz | null = null;
+
+      if (quizId) {
+        loadedQuiz = storage.getQuiz(quizId);
+        if (!loadedQuiz) {
+          alert("Quiz not found");
+          router.push("/");
+          return;
+        }
+      } else {
+        loadedQuiz = {
+          id: crypto.randomUUID(),
+          title: "New quiz",
+          blocks: [],
+          published: false,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+      }
+
+      setQuiz(loadedQuiz);
+    };
+
+    loadQuiz();
+  }, [quizId, router]);
 
   const selectedBlock =
     quiz?.blocks.find((block) => block.id === selectedBlockId) || null;
@@ -100,7 +125,8 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
     setTimeout(() => {
       setIsSaving(false);
       alert("Changes are saved!");
-    }, 500);
+      router.push("/");
+    }, 300);
   };
 
   const handlePublish = () => {
@@ -127,11 +153,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
   };
 
   if (!quiz) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-lg">Loading...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
@@ -167,7 +189,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
           </div>
         </header>
 
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-1 overflow-hidden flex-col lg:flex-row">
           <BlockPalette />
           <Canvas
             blocks={quiz.blocks}
@@ -194,7 +216,7 @@ function getDefaultProperties(type: BlockType) {
       return { text: "New header" };
     case "question":
       return {
-        text: "New question",
+        text: "Write your question",
         questionType: "single" as const,
         options: ["Answer 1", "Answer 2"],
       };
@@ -207,30 +229,5 @@ function getDefaultProperties(type: BlockType) {
       return { text: "Footer text" };
     default:
       return {};
-  }
-}
-
-function initializeQuiz(
-  quizId?: string,
-  router?: AppRouterInstance
-): Quiz | null {
-  if (quizId) {
-    const existingQuiz = storage.getQuiz(quizId);
-    if (existingQuiz) {
-      return existingQuiz;
-    } else {
-      alert("Quiz not found");
-      router?.push("/");
-      return null;
-    }
-  } else {
-    return {
-      id: crypto.randomUUID(),
-      title: "New quiz",
-      blocks: [],
-      published: false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
   }
 }
