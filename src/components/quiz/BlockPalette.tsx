@@ -11,7 +11,7 @@ const blockTypes: { type: BlockType; label: string; icon: string }[] = [
 
 export const BlockPalette: React.FC = () => {
   return (
-    <div className="w-64 bg-white border-r border-gray-200 p-4">
+    <div className="w-full lg:w-64 bg-white border-r border-gray-200 p-4">
       <h3 className="font-semibold mb-4">Blocks</h3>
       <div className="space-y-2">
         {blockTypes.map((block) => (

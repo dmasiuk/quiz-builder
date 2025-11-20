@@ -1,11 +1,14 @@
 import React from "react";
 import { QuizBlock } from "@/lib/types";
+import { TypeSelect } from "../ui/TypeSelect";
 
 interface ButtonBlockProps {
   block: QuizBlock;
   isSelected: boolean;
   onUpdate: (block: QuizBlock) => void;
 }
+
+type ButtonType = "next" | "submit";
 
 export const ButtonBlock: React.FC<ButtonBlockProps> = ({
   block,
@@ -15,6 +18,11 @@ export const ButtonBlock: React.FC<ButtonBlockProps> = ({
   const { properties } = block;
   const { buttonText = "Next", buttonType = "next" } = properties;
 
+  const buttonTypeOptions = [
+    { value: "next", label: "Next" },
+    { value: "submit", label: "Submit" },
+  ];
+
   const handleTextChange = (text: string) => {
     onUpdate({
       ...block,
@@ -22,7 +30,7 @@ export const ButtonBlock: React.FC<ButtonBlockProps> = ({
     });
   };
 
-  const handleTypeChange = (type: "next" | "submit") => {
+  const handleTypeChange = (type: ButtonType) => {
     onUpdate({
       ...block,
       properties: { ...properties, buttonType: type },
@@ -55,16 +63,11 @@ export const ButtonBlock: React.FC<ButtonBlockProps> = ({
 
       <div>
         <label className="block text-sm font-medium mb-1">Button type:</label>
-        <select
+        <TypeSelect
           value={buttonType}
-          onChange={(e) =>
-            handleTypeChange(e.target.value as "next" | "submit")
-          }
-          className="w-full p-2 border border-gray-300 rounded"
-        >
-          <option value="next">Next</option>
-          <option value="submit">Submit</option>
-        </select>
+          onChange={(value) => handleTypeChange(value as ButtonType)}
+          options={buttonTypeOptions}
+        />
       </div>
 
       <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
