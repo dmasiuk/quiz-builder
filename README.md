@@ -32,39 +32,41 @@ Follow these steps to set up and run the project locally:
    ```
 
 2. **Install dependencies**
+   
    npm install
 
-   # or
+   or
 
    yarn install
 
-   # or
+   or
 
    pnpm install
 
-   # or
+   or
 
    bun install
 
-3. **Run the development server**
+4. **Run the development server**
+   
    npm run dev
 
-   # or
+   or
 
    yarn dev
 
-   # or
+   or
 
    pnpm dev
 
-   # or
+   or
 
    bun dev
 
-4. **Open your browser**
+6. **Open your browser**
    Navigate to http://localhost:3000 to view the application.
 
-5. **Start building quizzes!**
+7. **Start building quizzes!**
 
 Click "Create Quiz" to start a new project
 
