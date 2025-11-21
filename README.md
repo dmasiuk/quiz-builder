@@ -27,7 +27,7 @@ Follow these steps to set up and run the project locally:
 1. **Clone the repository**
 
    ```bash
-   git clone <your-repository-url>
+   git clone <repository-url>
    cd quiz-builder
    ```
 
