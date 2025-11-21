@@ -34,33 +34,21 @@ Follow these steps to set up and run the project locally:
 2. **Install dependencies**
    
    npm install
-
    or
-
    yarn install
-
    or
-
    pnpm install
-
    or
-
    bun install
 
 4. **Run the development server**
    
    npm run dev
-
    or
-
    yarn dev
-
    or
-
    pnpm dev
-
    or
-
    bun dev
 
 6. **Open your browser**
@@ -68,33 +56,30 @@ Follow these steps to set up and run the project locally:
 
 7. **Start building quizzes!**
 
-Click "Create Quiz" to start a new project
+   Click "Create Quiz" to start a new project
 
-Drag blocks from the left sidebar to the canvas
+   Drag blocks from the left sidebar to the canvas
 
-Customize each block's properties
+   Customize each block's properties
 
-Save and publish your quiz
+   Save and publish your quiz
 
 ## First-Time Setup Notes
 
-The application will automatically initialize with example quizzes
+   The application will automatically initialize with example quizzes
 
-All data is stored in your browser's local storage
+   All data is stored in your browser's local storage
 
-No additional configuration or environment variables required
+   No additional configuration or environment variables required
 
 ## Available Scripts
 
-The following npm scripts are available for development and production:
+   The following npm scripts are available for development and production:
 
-npm run dev - Starts the development server with hot reload
-
-npm run build - Creates an optimized production build
-
-npm run start - Starts the production server (run after build)
-
-npm run lint - Runs ESLint to check code quality and find issues
+   **npm run dev** - Starts the development server with hot reload
+   **npm run build** - Creates an optimized production build
+   **npm run start** - Starts the production server (run after build)
+   **npm run lint** - Runs ESLint to check code quality and find issues
 
 ## Tech Stack
 
@@ -144,7 +129,7 @@ This project follows Next.js App Router conventions with a component-based archi
 - **`lib/`** - Utility functions and shared logic
   - `storage.ts` - LocalStorage abstraction layer
   - `types.ts` - TypeScript type definitions
-  - **`contexts/`** - Contexts (since using a state manager is not justified here)
+- **`contexts/`** - Contexts (since using a state manager is not justified here)
 
 ### Architecture Alternatives Considered
 
