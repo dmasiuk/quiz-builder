@@ -51,7 +51,7 @@ export default function QuizPage() {
           </h1>
           <p className="text-gray-600 mb-4">Not published yet</p>
           <div className="space-x-2">
-            <Button onClick={() => router.push("/")}>Back</Button>
+            <Button onClick={() => router.push("/")}>Back to the list</Button>
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ const INITIALIZED_KEY = "quizbuilder.initialized";
 const initialQuizzes: Quiz[] = [
   {
     id: "1",
-    title: "Example",
+    title: "Quiz example",
     blocks: [
       {
         id: "1-1",
@@ -19,7 +19,7 @@ const initialQuizzes: Quiz[] = [
         properties: {
           questionType: "single",
           text: "Any question?",
-          options: ["aaa", "bbb", "ccc", "ddd"],
+          options: ["option 1", "option 2", "option 3", "option 4"],
         },
       },
       {
@@ -75,6 +75,17 @@ export const storage = {
     }
 
     this.saveQuizzes(quizzes);
+  },
+
+  deleteQuiz(id: string): void {
+    try {
+      const quizzes = this.getQuizzes();
+      const filteredQuizzes = quizzes.filter((quiz) => quiz.id !== id);
+      this.saveQuizzes(filteredQuizzes);
+    } catch (error) {
+      console.error("Error deleting quiz from localStorage:", error);
+      this.showError("Error deleting quiz");
+    }
   },
 
   initializeData(): void {

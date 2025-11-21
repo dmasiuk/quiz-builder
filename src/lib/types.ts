@@ -28,3 +28,9 @@ export interface DragItem {
   blockId?: string;
   index?: number;
 }
+
+export interface DeleteModal {
+  isOpen: boolean;
+  quizId: string | null;
+  quizTitle: string;
+}
