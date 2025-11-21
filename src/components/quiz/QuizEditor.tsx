@@ -12,6 +12,7 @@ import { PropertiesPanel } from "./PropertiesPanel";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Loading } from "../ui/Loading";
+import { useToast } from "@/contexts/ToastContext";
 interface QuizEditorProps {
   quizId?: string;
 }
@@ -21,6 +22,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const { addToast } = useToast();
 
   useEffect(() => {
     const loadQuiz = () => {
@@ -29,7 +31,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
       if (quizId) {
         loadedQuiz = storage.getQuiz(quizId);
         if (!loadedQuiz) {
-          alert("Quiz not found");
+          addToast("Quiz not found", "error");
           router.push("/");
           return;
         }
@@ -48,7 +50,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
     };
 
     loadQuiz();
-  }, [quizId, router]);
+  }, [quizId, router, addToast]);
 
   const selectedBlock =
     quiz?.blocks.find((block) => block.id === selectedBlockId) || null;
@@ -106,6 +108,10 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
     }
   };
 
+  const handleDeselectBlock = () => {
+    setSelectedBlockId(null);
+  };
+
   const handleMoveBlock = (fromIndex: number, toIndex: number) => {
     if (!quiz) return;
 
@@ -124,7 +130,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
 
     setTimeout(() => {
       setIsSaving(false);
-      alert("Changes are saved!");
+      addToast("Changes are saved!", "success");
       router.push("/");
     }, 300);
   };
@@ -133,7 +139,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
     if (!quiz) return;
 
     if (!quiz.published && quiz.blocks.length === 0) {
-      alert("Add any blocks to publish");
+      addToast("Add any blocks to publish", "warning");
       return;
     }
 
@@ -145,12 +151,15 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
 
     storage.saveQuiz(updatedQuiz);
     setQuiz(updatedQuiz);
-    alert("Quiz is published!");
+    addToast("Quiz is published!", "success");
+    router.push("/");
   };
 
   const handleBack = () => {
     router.push("/");
   };
+
+  const isPublished = quiz?.published;
 
   if (!quiz) {
     return <Loading />;
@@ -163,7 +172,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center justify-between md:hidden">
               <Button variant="secondary" onClick={handleBack}>
-                ← Back
+                ← Back to the list
               </Button>
               <div className="flex gap-2">
                 <Button
@@ -173,8 +182,8 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
                 >
                   {isSaving ? "Saving..." : "Save"}
                 </Button>
-                <Button onClick={handlePublish} disabled={quiz.published}>
-                  {quiz.published ? "Published" : "Publish"}
+                <Button onClick={handlePublish} disabled={isPublished}>
+                  {isPublished ? "Published" : "Publish"}
                 </Button>
               </div>
             </div>
@@ -218,6 +227,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
             blocks={quiz.blocks}
             selectedBlockId={selectedBlockId}
             onSelectBlock={setSelectedBlockId}
+            onDeselectBlock={handleDeselectBlock}
             onUpdateBlock={handleUpdateBlock}
             onDeleteBlock={handleDeleteBlock}
             onAddBlock={handleAddBlock}

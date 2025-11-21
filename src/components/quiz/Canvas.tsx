@@ -11,6 +11,7 @@ interface CanvasProps {
   blocks: QuizBlock[];
   selectedBlockId: string | null;
   onSelectBlock: (blockId: string) => void;
+  onDeselectBlock: () => void;
   onUpdateBlock: (block: QuizBlock) => void;
   onDeleteBlock: (blockId: string) => void;
   onAddBlock: (type: BlockType, index?: number) => void;
@@ -21,6 +22,7 @@ export const Canvas: React.FC<CanvasProps> = ({
   blocks,
   selectedBlockId,
   onSelectBlock,
+  onDeselectBlock,
   onUpdateBlock,
   onDeleteBlock,
   onAddBlock,
@@ -43,6 +45,7 @@ export const Canvas: React.FC<CanvasProps> = ({
       block,
       isSelected: selectedBlockId === block.id,
       onSelect: () => onSelectBlock(block.id),
+      onDeselect: onDeselectBlock,
       onDelete: () => onDeleteBlock(block.id),
       onUpdate: onUpdateBlock,
       onMove: onMoveBlock,
@@ -62,6 +65,7 @@ export const Canvas: React.FC<CanvasProps> = ({
         return null;
     }
   };
+
   const dropRef = drop as unknown as React.Ref<HTMLDivElement>;
 
   return (
@@ -85,6 +89,7 @@ export const Canvas: React.FC<CanvasProps> = ({
             block={block}
             isSelected={selectedBlockId === block.id}
             onSelect={() => onSelectBlock(block.id)}
+            onDeselect={onDeselectBlock}
             onDelete={() => onDeleteBlock(block.id)}
             onMove={onMoveBlock}
             index={index}
