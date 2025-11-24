@@ -27,72 +27,59 @@ Follow these steps to set up and run the project locally:
 1. **Clone the repository**
 
    ```bash
-   git clone <your-repository-url>
+   git clone <repository-url>
    cd quiz-builder
    ```
 
 2. **Install dependencies**
+   
    npm install
-
-   # or
-
+   or
    yarn install
-
-   # or
-
+   or
    pnpm install
-
-   # or
-
+   or
    bun install
 
-3. **Run the development server**
+4. **Run the development server**
+   
    npm run dev
-
-   # or
-
+   or
    yarn dev
-
-   # or
-
+   or
    pnpm dev
-
-   # or
-
+   or
    bun dev
 
-4. **Open your browser**
+6. **Open your browser**
    Navigate to http://localhost:3000 to view the application.
 
-5. **Start building quizzes!**
+7. **Start building quizzes!**
 
-Click "Create Quiz" to start a new project
+   Click "Create Quiz" to start a new project
 
-Drag blocks from the left sidebar to the canvas
+   Drag blocks from the left sidebar to the canvas
 
-Customize each block's properties
+   Customize each block's properties
 
-Save and publish your quiz
+   Save and publish your quiz
 
 ## First-Time Setup Notes
 
-The application will automatically initialize with example quizzes
+   The application will automatically initialize with example quizzes
 
-All data is stored in your browser's local storage
+   All data is stored in your browser's local storage
 
-No additional configuration or environment variables required
+   No additional configuration or environment variables required
 
 ## Available Scripts
 
-The following npm scripts are available for development and production:
+   The following npm scripts are available for development and production:
 
-npm run dev - Starts the development server with hot reload
-
-npm run build - Creates an optimized production build
-
-npm run start - Starts the production server (run after build)
-
-npm run lint - Runs ESLint to check code quality and find issues
+   **npm run dev** - Starts the development server with hot reload
+   **npm run build** - Creates an optimized production build
+   **npm run start** - Starts the production server (run after build)
+   **npm run lint** - Runs ESLint to check code quality and find issues
 
 ## Tech Stack
 
