@@ -88,7 +88,7 @@ Follow these steps to set up and run the project locally:
 - **Next.js 16.0.3** - React framework with App Router for server-side rendering and routing
 - **React 19.2.0** - Latest React version with React Compiler for optimized performance
 - **TypeScript 5** - Type-safe JavaScript for better development experience
-- **Tailwind CSS 4** - Latest utility-first CSS framework with PostCSS, chosen due fast convenient way for styling, CSS optimization and minification
+- **Tailwind CSS 4** - Latest utility-first CSS framework with PostCSS, chosen due fast way for styling, CSS optimization and minification
 - **React DnD 16** - Drag and drop library for interactive block rearrangement, chosen for its simple architecture and built-in customizable features
 
 ### Development Tools
@@ -105,7 +105,7 @@ Follow these steps to set up and run the project locally:
 
 - **LocalStorage** - Client-side data persistence (Frontend-Only variant)
 
-### Architecture Alternatives
+### Stack Alternatives
 
 This project demonstrates a **Frontend-Only** implementation as specified in the requirements. Alternative approaches could include:
 
@@ -128,8 +128,8 @@ This project follows Next.js App Router conventions with a component-based archi
   - `blocks/` - Individual block components (Heading, Question, etc.)
 - **`lib/`** - Utility functions and shared logic
   - `storage.ts` - LocalStorage abstraction layer
-  - `types.ts` - TypeScript type definitions
 - **`contexts/`** - Contexts (since using a state manager is not justified here)
+- **`types/`** - TypeScript type definitions
 
 ### Architecture Alternatives Considered
 
@@ -151,14 +151,15 @@ This project follows Next.js App Router conventions with a component-based archi
 
 - **Table Sorting** - Add sorting functionality to the quizzes table (by title, status, date)
 - **Pagination** - Implement pagination for better performance with large numbers of quizzes
-- **Enhanced Styling** - Integrate `clsx` or `classnames` library for more dynamic and conditional CSS classes
+- **Loaders** - Add loaders to components
 
 ### Quiz Functionality
 
 - **Multi-step Quizzes** - Add navigation between questions with Next/Previous buttons
 - **Question Progression** - Implement proper quiz flow with question sequencing
-- **Answer Validation** - Add client-side validation for required questions
 - **Quiz Results** - Create a results page showing user scores and correct answers
+- **Answer Validation** - Add client-side validation for required questions
+- **Pre-publish validation** - Disable publishing if there is any empty block, or any form field with errors
 
 ### Advanced Features
 
@@ -173,3 +174,5 @@ This project follows Next.js App Router conventions with a component-based archi
 - **Real-time Collaboration** - Multiple users editing the same quiz simultaneously
 - **Accessibility** - Improve screen reader support and keyboard navigation
 - **State manager** - Improve global state management
+- **Form manager** - Improve form management using e.g. React Hook Form and zod
+- **Enhanced Styling** - Integrate `clsx` or `classnames` library for more dynamic and conditional CSS classes

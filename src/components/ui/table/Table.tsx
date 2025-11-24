@@ -1,6 +1,6 @@
-import React from "react";
-import Link from "next/link";
-import { Quiz } from "@/lib/types";
+import React from 'react';
+import Link from 'next/link';
+import { Quiz } from '../../../types/types';
 
 interface TableProps {
   quizzes: Quiz[];
@@ -9,12 +9,12 @@ interface TableProps {
 
 export const Table: React.FC<TableProps> = ({ quizzes, onDeleteQuiz }) => {
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-EN", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+    return new Date(dateString).toLocaleDateString('en-EN', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
 
@@ -46,7 +46,7 @@ export const Table: React.FC<TableProps> = ({ quizzes, onDeleteQuiz }) => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {quizzes.map((quiz) => (
+          {quizzes.map(quiz => (
             <tr key={quiz.id} className="hover:bg-gray-50">
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm font-medium text-gray-900">
@@ -57,11 +57,11 @@ export const Table: React.FC<TableProps> = ({ quizzes, onDeleteQuiz }) => {
                 <span
                   className={`inline-flex px-3 py-[5px] text-xs font-semibold rounded w-[105px] justify-center text-center ${
                     quiz.published
-                      ? "bg-green-100 text-green-800"
-                      : "bg-yellow-100 text-yellow-800"
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-yellow-100 text-yellow-800'
                   }`}
                 >
-                  {quiz.published ? "Published" : "Not published"}
+                  {quiz.published ? 'Published' : 'Not published'}
                 </span>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

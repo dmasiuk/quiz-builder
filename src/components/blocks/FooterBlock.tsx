@@ -1,45 +1,19 @@
-import React from "react";
-import { QuizBlock } from "@/lib/types";
+import React from 'react';
+import { IFooterBlock } from '../../types/types';
 
 interface FooterBlockProps {
-  block: QuizBlock;
+  block: IFooterBlock;
   isSelected: boolean;
-  onUpdate: (block: QuizBlock) => void;
+  onUpdate: (block: IFooterBlock) => void;
 }
 
-export const FooterBlock: React.FC<FooterBlockProps> = ({
-  block,
-  isSelected,
-  onUpdate,
-}) => {
+export const FooterBlock: React.FC<FooterBlockProps> = ({ block }) => {
   const { properties } = block;
-  const { text = "" } = properties;
-
-  const handleTextChange = (text: string) => {
-    onUpdate({
-      ...block,
-      properties: { ...properties, text },
-    });
-  };
-
-  if (!isSelected) {
-    return (
-      <div className="text-sm text-gray-500 mt-2 pt-4 ">
-        {text || "Footer text"}
-      </div>
-    );
-  }
+  const { text = '' } = properties;
 
   return (
-    <div>
-      <label className="block text-sm font-medium mb-2">Footer text:</label>
-      <textarea
-        value={text}
-        onChange={(e) => handleTextChange(e.target.value)}
-        placeholder="Enter footer text..."
-        className="w-full p-2 border border-gray-300 rounded"
-        rows={3}
-      />
+    <div className="text-sm text-gray-500 mt-2 pt-4 ">
+      {text || 'Footer text'}
     </div>
   );
 };

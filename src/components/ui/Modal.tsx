@@ -14,8 +14,8 @@ export const Modal: React.FC<ModalProps> = ({
   onConfirm,
   title,
   message,
-  confirmText = "Delete",
-  cancelText = "Cancel",
+  confirmText = 'Delete',
+  cancelText = 'Cancel',
 }) => {
   if (!isOpen) return;
 
