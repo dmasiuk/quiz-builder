@@ -1,39 +1,13 @@
-import React from "react";
-import { QuizBlock } from "@/lib/types";
+import { IHeadingBlock } from '../../types/types';
 
 interface HeadingBlockProps {
-  block: QuizBlock;
+  block: IHeadingBlock;
   isSelected: boolean;
-  onUpdate: (block: QuizBlock) => void;
+  onUpdate: (block: IHeadingBlock) => void;
 }
 
-export const HeadingBlock: React.FC<HeadingBlockProps> = ({
-  block,
-  isSelected,
-  onUpdate,
-}) => {
-  const handleTextChange = (text: string) => {
-    onUpdate({
-      ...block,
-      properties: { ...block.properties, text },
-    });
-  };
-
+export const HeadingBlock: React.FC<HeadingBlockProps> = ({ block }) => {
   return (
-    <div>
-      {isSelected ? (
-        <input
-          type="text"
-          value={block.properties.text || ""}
-          onChange={(e) => handleTextChange(e.target.value)}
-          className="w-full text-2xl font-bold p-2 border border-gray-300 rounded"
-          placeholder="Enter header..."
-        />
-      ) : (
-        <h2 className="text-2xl font-bold">
-          {block.properties.text || "Header"}
-        </h2>
-      )}
-    </div>
+    <h2 className="text-2xl font-bold">{block.properties.text || 'Header'}</h2>
   );
 };

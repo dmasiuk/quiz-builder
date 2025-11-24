@@ -1,59 +1,35 @@
-import React from "react";
-import { useDrag, useDrop } from "react-dnd";
-import { DragItem, QuizBlock } from "@/lib/types";
+import { useDrag } from 'react-dnd';
+import { QuizBlock } from '../../types/types';
 
 interface BlockWrapperProps {
   block: QuizBlock;
   isSelected: boolean;
+  index: number;
+  children: React.ReactNode;
   onSelect: () => void;
   onDeselect: () => void;
   onDelete: () => void;
   onMove: (fromIndex: number, toIndex: number) => void;
-  index: number;
-  children: React.ReactNode;
 }
 
 export const BlockWrapper: React.FC<BlockWrapperProps> = ({
   block,
+  index,
+  children,
   isSelected,
   onSelect,
   onDeselect,
   onDelete,
-  onMove,
-  index,
-  children,
 }) => {
   const [{ isDragging }, drag] = useDrag({
-    type: "block",
+    type: 'block',
     item: { type: block.type, blockId: block.id, index: index },
-    collect: (monitor) => ({
+    collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
   });
 
-  const [{ isOver }, drop] = useDrop({
-    accept: "block",
-    drop: (item: DragItem) => {
-      if (
-        item.blockId &&
-        item.blockId !== block.id &&
-        item.index !== undefined
-      ) {
-        onMove(item.index, index);
-      }
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  });
-
-  const dragDropRef = React.useCallback(
-    (node: HTMLDivElement | null) => {
-      drag(node);
-      drop(node);
-    },
-    [drag, drop]
-  );
+  const dragRef = drag as unknown as React.Ref<HTMLDivElement>;
 
   const handleEditClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -66,12 +42,12 @@ export const BlockWrapper: React.FC<BlockWrapperProps> = ({
 
   return (
     <div
-      ref={dragDropRef}
+      ref={dragRef}
       className={`
-        relative border-2 rounded-lg p-4 mb-2 transition-all cursor-move
-        ${isSelected ? "border-blue-500 bg-blue-50" : "border-gray-200"}
-        ${isDragging ? "opacity-50" : "opacity-100"}
-        ${isOver ? "border-dashed border-blue-400 bg-blue-100" : ""}
+        relative border-2 rounded-lg p-4 transition-all cursor-move
+        ${isSelected ? 'border-blue-500 bg-blue-50 shadow-md' : 'border-gray-200'}
+        ${isDragging ? 'opacity-50' : 'opacity-100'}
+        hover:border-gray-300 hover:shadow-sm
       `}
     >
       <div className="flex justify-between items-center mb-3 cursor-move">
@@ -92,33 +68,31 @@ export const BlockWrapper: React.FC<BlockWrapperProps> = ({
           {block.type.charAt(0).toUpperCase() + block.type.slice(1)}
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex gap-3 items-center space-x-2">
           <button
             onClick={handleEditClick}
-            className={`px-3 py-1 text-xs font-medium rounded transition-colors cursor-pointer ${
+            className={`px-4 py-1 text-xs font-medium rounded transition-colors cursor-pointer ${
               isSelected
-                ? "bg-gray-500 text-white hover:bg-gray-600"
-                : "bg-blue-500 text-white hover:bg-blue-600"
+                ? 'bg-gray-500 text-white hover:bg-gray-600'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
             }`}
           >
-            {isSelected ? "Stop editing" : "Edit block"}
+            {isSelected ? 'Editing...' : 'Edit'}
           </button>
 
-          {isSelected && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete();
-              }}
-              className="text-red-500 hover:text-red-700 cursor-pointer p-1"
-            >
-              ×
-            </button>
-          )}
+          <button
+            onClick={e => {
+              e.stopPropagation();
+              onDelete();
+            }}
+            className="text-red-500 hover:text-red-700 cursor-pointer p-1"
+          >
+            ×
+          </button>
         </div>
       </div>
 
-      <div onClick={(e) => e.stopPropagation()}>{children}</div>
+      <div onClick={e => e.stopPropagation()}>{children}</div>
     </div>
   );
 };

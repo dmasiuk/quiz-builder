@@ -1,9 +1,8 @@
-import React from "react";
-import { QuizBlock } from "@/lib/types";
-import { HeadingBlock } from "../blocks/HeadingBlock";
-import { QuestionBlock } from "../blocks/QuestionBlock";
-import { ButtonBlock } from "../blocks/ButtonBlock";
-import { FooterBlock } from "../blocks/FooterBlock";
+import { QuizBlock, BlockTypes } from '../../types/types';
+import { HeadingBlockEditor } from '../blocks/block-editors/HeadingBlockEditor';
+import { QuestionBlockEditor } from '../blocks/block-editors/QuestionBlockEditor';
+import { ButtonBlockEditor } from '../blocks/block-editors/ButtonBlockEditor';
+import { FooterBlockEditor } from '../blocks/block-editors/FooterBlockEditor';
 
 interface PropertiesPanelProps {
   selectedBlock: QuizBlock | null;
@@ -25,41 +24,37 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
     );
   }
 
-  const commonProps = {
-    block: selectedBlock,
-    isSelected: true,
-    onUpdate: onUpdateBlock,
+  const renderEditor = () => {
+    switch (selectedBlock.type) {
+      case BlockTypes.HEADING:
+        return (
+          <HeadingBlockEditor block={selectedBlock} onUpdate={onUpdateBlock} />
+        );
+
+      case BlockTypes.QUESTION:
+        return (
+          <QuestionBlockEditor block={selectedBlock} onUpdate={onUpdateBlock} />
+        );
+
+      case BlockTypes.BUTTON:
+        return (
+          <ButtonBlockEditor block={selectedBlock} onUpdate={onUpdateBlock} />
+        );
+
+      case BlockTypes.FOOTER:
+        return (
+          <FooterBlockEditor block={selectedBlock} onUpdate={onUpdateBlock} />
+        );
+
+      default:
+        return null;
+    }
   };
 
   return (
     <div className="w-full lg:w-80 bg-white border-l border-gray-200 p-4 overflow-auto">
       <h3 className="font-semibold mb-4">Block properties</h3>
-
-      <div className="mb-4 p-3 bg-gray-100 rounded">
-        <div className="text-sm text-gray-600">
-          Type: {getBlockTypeLabel(selectedBlock.type)}
-        </div>
-        <div className="text-xs text-gray-500">ID: {selectedBlock.id}</div>
-      </div>
-
-      <div className="space-y-4">
-        {selectedBlock.type === "heading" && <HeadingBlock {...commonProps} />}
-        {selectedBlock.type === "question" && (
-          <QuestionBlock {...commonProps} />
-        )}
-        {selectedBlock.type === "button" && <ButtonBlock {...commonProps} />}
-        {selectedBlock.type === "footer" && <FooterBlock {...commonProps} />}
-      </div>
+      <div className="space-y-4">{renderEditor()}</div>
     </div>
   );
 };
-
-function getBlockTypeLabel(type: string): string {
-  const labels: { [key: string]: string } = {
-    heading: "Header",
-    question: "Question",
-    button: "Button",
-    footer: "Footer",
-  };
-  return labels[type] || type;
-}

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { DeleteModal, Quiz } from "@/lib/types";
-import { storage } from "@/lib/storage";
-import { Button } from "@/components/ui/Button";
-import { Modal } from "@/components/ui/Modal";
-import { Table } from "@/components/ui/table/Table";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { DeleteModal, Quiz } from '../types/types';
+import { storage } from '@/lib/storage';
+import { Button } from '@/components/ui/Button';
+import { Modal } from '@/components/ui/Modal';
+import { Table } from '@/components/ui/table/Table';
 
 export default function HomePage() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -14,7 +14,7 @@ export default function HomePage() {
   const [deleteModal, setDeleteModal] = useState<DeleteModal>({
     isOpen: false,
     quizId: null,
-    quizTitle: "",
+    quizTitle: '',
   });
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function HomePage() {
     setDeleteModal({
       isOpen: false,
       quizId: null,
-      quizTitle: "",
+      quizTitle: '',
     });
   };
 
@@ -59,7 +59,7 @@ export default function HomePage() {
             <h1 className="text-3xl font-bold text-gray-900">My quizzes</h1>
             <Button disabled>Create Quiz</Button>
           </div>
-          <div className="bg-white rounded-lg shadow p-8 text-center">
+          <div className="bg-white rounded-lg shadow p-8 py-12 text-center">
             <div className="text-lg">Loading quizzes...</div>
           </div>
         </div>

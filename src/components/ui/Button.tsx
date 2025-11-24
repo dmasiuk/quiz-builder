@@ -1,28 +1,28 @@
-import React from "react";
+import React from 'react';
 
 interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
-  variant?: "primary" | "secondary" | "danger";
+  variant?: 'primary' | 'secondary' | 'danger';
   disabled?: boolean;
-  type?: "button" | "submit";
+  type?: 'button' | 'submit';
   className?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
-  variant = "primary",
+  variant = 'primary',
   disabled = false,
-  type = "button",
-  className = "",
+  type = 'button',
+  className = '',
 }) => {
   const baseStyles =
-    "px-4 py-2 rounded font-medium transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed";
+    'px-4 py-2 rounded font-medium transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed';
   const variants = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-300",
-    secondary: "bg-gray-600 text-white hover:bg-gray-700 disabled:bg-gray-300",
-    danger: "bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300",
+    primary: 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-300',
+    secondary: 'bg-gray-600 text-white hover:bg-gray-700 disabled:bg-gray-300',
+    danger: 'bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300',
   };
 
   return (

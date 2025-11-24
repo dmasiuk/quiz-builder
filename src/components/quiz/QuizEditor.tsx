@@ -1,59 +1,30 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { useRouter } from "next/navigation";
-import { Quiz, QuizBlock, BlockType } from "@/lib/types";
-import { storage } from "@/lib/storage";
-import { BlockPalette } from "./BlockPalette";
-import { Canvas } from "./Canvas";
-import { PropertiesPanel } from "./PropertiesPanel";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Loading } from "../ui/Loading";
-import { useToast } from "@/contexts/ToastContext";
+import { useState } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Quiz, QuizBlock, BlockTypes } from '../../types/types';
+import { BlockPalette } from './BlockPalette';
+import { Canvas } from './Canvas';
+import { PropertiesPanel } from './PropertiesPanel';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Loading } from '../ui/Loading';
+import { getDefaultProperties } from '../helpers';
+import { useQuiz } from '@/hooks/useQuiz';
+
 interface QuizEditorProps {
   quizId?: string;
 }
 
 export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
-  const router = useRouter();
-  const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
-  const { addToast } = useToast();
 
-  useEffect(() => {
-    const loadQuiz = () => {
-      let loadedQuiz: Quiz | null = null;
-
-      if (quizId) {
-        loadedQuiz = storage.getQuiz(quizId);
-        if (!loadedQuiz) {
-          addToast("Quiz not found", "error");
-          router.push("/");
-          return;
-        }
-      } else {
-        loadedQuiz = {
-          id: crypto.randomUUID(),
-          title: "New quiz",
-          blocks: [],
-          published: false,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        };
-      }
-
-      setQuiz(loadedQuiz);
-    };
-
-    loadQuiz();
-  }, [quizId, router, addToast]);
+  const { quiz, setQuiz, isSaving, handleSave, handlePublish, router } =
+    useQuiz(quizId || '');
 
   const selectedBlock =
-    quiz?.blocks.find((block) => block.id === selectedBlockId) || null;
+    quiz?.blocks.find(block => block.id === selectedBlockId) || null;
 
   const updateQuiz = (updates: Partial<Quiz>) => {
     if (quiz) {
@@ -70,14 +41,10 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
     updateQuiz({ title });
   };
 
-  const handleAddBlock = (type: BlockType, index?: number) => {
+  const handleAddBlock = (type: BlockTypes, index?: number) => {
     if (!quiz) return;
 
-    const newBlock: QuizBlock = {
-      id: crypto.randomUUID(),
-      type,
-      properties: getDefaultProperties(type),
-    };
+    const newBlock = getDefaultProperties(type);
 
     const newBlocks = [...quiz.blocks];
     const insertIndex = index !== undefined ? index : newBlocks.length;
@@ -90,7 +57,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
   const handleUpdateBlock = (updatedBlock: QuizBlock) => {
     if (!quiz) return;
 
-    const newBlocks = quiz.blocks.map((block) =>
+    const newBlocks = quiz.blocks.map(block =>
       block.id === updatedBlock.id ? updatedBlock : block
     );
 
@@ -100,7 +67,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
   const handleDeleteBlock = (blockId: string) => {
     if (!quiz) return;
 
-    const newBlocks = quiz.blocks.filter((block) => block.id !== blockId);
+    const newBlocks = quiz.blocks.filter(block => block.id !== blockId);
     updateQuiz({ blocks: newBlocks });
 
     if (selectedBlockId === blockId) {
@@ -122,41 +89,8 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
     updateQuiz({ blocks: newBlocks });
   };
 
-  const handleSave = () => {
-    if (!quiz) return;
-
-    setIsSaving(true);
-    storage.saveQuiz(quiz);
-
-    setTimeout(() => {
-      setIsSaving(false);
-      addToast("Changes are saved!", "success");
-      router.push("/");
-    }, 300);
-  };
-
-  const handlePublish = () => {
-    if (!quiz) return;
-
-    if (!quiz.published && quiz.blocks.length === 0) {
-      addToast("Add any blocks to publish", "warning");
-      return;
-    }
-
-    const updatedQuiz = {
-      ...quiz,
-      published: true,
-      updatedAt: new Date().toISOString(),
-    };
-
-    storage.saveQuiz(updatedQuiz);
-    setQuiz(updatedQuiz);
-    addToast("Quiz is published!", "success");
-    router.push("/");
-  };
-
   const handleBack = () => {
-    router.push("/");
+    router.push('/');
   };
 
   const isPublished = quiz?.published;
@@ -180,10 +114,10 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
                   disabled={isSaving}
                   variant="secondary"
                 >
-                  {isSaving ? "Saving..." : "Save"}
+                  {isSaving ? 'Saving...' : 'Save'}
                 </Button>
                 <Button onClick={handlePublish} disabled={isPublished}>
-                  {isPublished ? "Published" : "Publish"}
+                  {isPublished ? 'Published' : 'Publish'}
                 </Button>
               </div>
             </div>
@@ -211,10 +145,10 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
                   disabled={isSaving}
                   variant="secondary"
                 >
-                  {isSaving ? "Saving..." : "Save"}
+                  {isSaving ? 'Saving...' : 'Save'}
                 </Button>
                 <Button onClick={handlePublish} disabled={quiz.published}>
-                  {quiz.published ? "Published" : "Publish"}
+                  {quiz.published ? 'Published' : 'Publish'}
                 </Button>
               </div>
             </div>
@@ -242,25 +176,3 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quizId }) => {
     </DndProvider>
   );
 };
-
-function getDefaultProperties(type: BlockType) {
-  switch (type) {
-    case "heading":
-      return { text: "New header" };
-    case "question":
-      return {
-        text: "Write your question",
-        questionType: "single" as const,
-        options: ["Answer 1", "Answer 2"],
-      };
-    case "button":
-      return {
-        buttonText: "Next",
-        buttonType: "next" as const,
-      };
-    case "footer":
-      return { text: "Footer text" };
-    default:
-      return {};
-  }
-}

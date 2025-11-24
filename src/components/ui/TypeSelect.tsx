@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
 interface SelectOption {
   value: string;
@@ -16,7 +16,7 @@ export const TypeSelect: React.FC<TypeSelectProps> = ({
   value,
   onChange,
   options,
-  placeholder = "Select...",
+  placeholder = 'Select...',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -31,11 +31,11 @@ export const TypeSelect: React.FC<TypeSelectProps> = ({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const selectedOption = options.find((opt) => opt.value === value);
+  const selectedOption = options.find(opt => opt.value === value);
 
   return (
     <div className="relative w-full" ref={dropdownRef}>
@@ -48,7 +48,7 @@ export const TypeSelect: React.FC<TypeSelectProps> = ({
           <span>{selectedOption?.label || placeholder}</span>
           <svg
             className={`w-4 h-4 transition-transform ${
-              isOpen ? "rotate-180" : ""
+              isOpen ? 'rotate-180' : ''
             }`}
             fill="none"
             stroke="currentColor"
@@ -66,7 +66,7 @@ export const TypeSelect: React.FC<TypeSelectProps> = ({
 
       {isOpen && (
         <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg max-h-60 overflow-auto">
-          {options.map((option) => (
+          {options.map(option => (
             <button
               key={option.value}
               type="button"
@@ -76,8 +76,8 @@ export const TypeSelect: React.FC<TypeSelectProps> = ({
               }}
               className={`w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer transition-colors ${
                 value === option.value
-                  ? "bg-blue-50 text-blue-600 font-medium"
-                  : "text-gray-700"
+                  ? 'bg-blue-50 text-blue-600 font-medium'
+                  : 'text-gray-700'
               }`}
             >
               {option.label}

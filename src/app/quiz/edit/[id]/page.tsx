@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { QuizEditor } from "@/components/quiz/QuizEditor";
-import { useParams } from "next/navigation";
+import { QuizEditor } from '@/components/quiz/QuizEditor';
+import { useParams } from 'next/navigation';
 
 export default function EditQuizPage() {
   const params = useParams();

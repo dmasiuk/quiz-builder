@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useParams, useRouter } from "next/navigation";
-import { storage } from "@/lib/storage";
-import { Button } from "@/components/ui/Button";
-import { QuizRenderer } from "@/components/quiz/QuizRenderer";
-import { useEffect, useState } from "react";
-import { Quiz } from "@/lib/types";
-import { Loading } from "@/components/ui/Loading";
+import { useParams, useRouter } from 'next/navigation';
+import { storage } from '@/lib/storage';
+import { Button } from '@/components/ui/Button';
+import { QuizRenderer } from '@/components/quiz/QuizRenderer';
+import { useEffect, useState } from 'react';
+import { Quiz } from '../../../types/types';
+import { Loading } from '@/components/ui/Loading';
 
 export default function QuizPage() {
   const params = useParams();
@@ -36,23 +36,7 @@ export default function QuizPage() {
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
             Quiz not found
           </h1>
-          <Button onClick={() => router.push("/")}>Back to the list</Button>
-        </div>
-      </div>
-    );
-  }
-
-  if (!quiz.published) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            {quiz.title}
-          </h1>
-          <p className="text-gray-600 mb-4">Not published yet</p>
-          <div className="space-x-2">
-            <Button onClick={() => router.push("/")}>Back to the list</Button>
-          </div>
+          <Button onClick={() => router.push('/')}>Back to the list</Button>
         </div>
       </div>
     );

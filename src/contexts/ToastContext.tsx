@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from 'react';
 
-export type ToastType = "success" | "error" | "warning" | "info";
+export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
 export interface Toast {
   id: string;
@@ -26,13 +26,13 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const addToast = (
     message: string,
-    type: ToastType = "info",
+    type: ToastType = 'info',
     duration: number = 3000
   ) => {
     const id = crypto.randomUUID();
     const newToast: Toast = { id, message, type, duration };
 
-    setToasts((prev) => [...prev, newToast]);
+    setToasts(prev => [...prev, newToast]);
 
     setTimeout(() => {
       removeToast(id);
@@ -40,7 +40,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const removeToast = (id: string) => {
-    setToasts((prev) => prev.filter((toast) => toast.id !== id));
+    setToasts(prev => prev.filter(toast => toast.id !== id));
   };
 
   return (
@@ -53,7 +53,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useToast = () => {
   const context = useContext(ToastContext);
   if (context === undefined) {
-    throw new Error("useToast must be used within a ToastProvider");
+    throw new Error('useToast must be used within a ToastProvider');
   }
   return context;
 };

@@ -1,5 +1,5 @@
-import React from "react";
-import { Toast as ToastType } from "@/contexts/ToastContext";
+import React from 'react';
+import { Toast as ToastType } from '@/contexts/ToastContext';
 
 interface ToastProps {
   toast: ToastType;
@@ -9,16 +9,16 @@ interface ToastProps {
 export const Toast: React.FC<ToastProps> = ({ toast, onClose }) => {
   const getToastStyles = () => {
     const baseStyles =
-      "max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto overflow-hidden";
+      'max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto overflow-hidden';
 
     switch (toast.type) {
-      case "success":
+      case 'success':
         return `${baseStyles} border-l-4 border-green-500`;
-      case "error":
+      case 'error':
         return `${baseStyles} border-l-4 border-red-500`;
-      case "warning":
+      case 'warning':
         return `${baseStyles} border-l-4 border-yellow-500`;
-      case "info":
+      case 'info':
         return `${baseStyles} border-l-4 border-blue-500`;
       default:
         return baseStyles;
@@ -27,7 +27,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onClose }) => {
 
   const getIcon = () => {
     switch (toast.type) {
-      case "success":
+      case 'success':
         return (
           <svg
             className="w-5 h-5 text-green-500"
@@ -41,7 +41,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onClose }) => {
             />
           </svg>
         );
-      case "error":
+      case 'error':
         return (
           <svg
             className="w-5 h-5 text-red-500"
@@ -55,7 +55,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onClose }) => {
             />
           </svg>
         );
-      case "warning":
+      case 'warning':
         return (
           <svg
             className="w-5 h-5 text-yellow-500"
@@ -69,7 +69,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onClose }) => {
             />
           </svg>
         );
-      case "info":
+      case 'info':
         return (
           <svg
             className="w-5 h-5 text-blue-500"
